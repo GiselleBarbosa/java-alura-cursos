@@ -29,6 +29,8 @@ public class CalculadoraArea {
             } else {
                 System.out.println("Opção inválida. Tente novamente.");
             }
+
+            scanner.close();
         }
     }
 }
