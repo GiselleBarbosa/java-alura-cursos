@@ -1,0 +1,51 @@
+# Arquivos temporários
+*.class
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Arquivos de compilação e construção
+/target/
+/bin/
+/build/
+/dist/
+
+# Dependências do Maven
+/.mvn/
+/target/
+
+# Dependências do Gradle
+.gradle/
+/build/
+
+# Arquivos IDE
+/.idea/
+.project
+.settings/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Arquivos de configuração local
+application.properties
+application.yml
+*.properties
+*.yml
+
+# Arquivos de log
+/log/
+/logs/
+
+### VS Code ###
+.vscode/
+.env
+
+
+.alura.iml
