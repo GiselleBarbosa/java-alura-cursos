@@ -25,15 +25,15 @@ public class ScreenmatchApplication implements CommandLineRunner {
         // Chamada da API OmDb
         var json = consumoApi.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=" + apiKey);
 
-        System.out.println("");
-        System.out.println("******SAIDA DO JSON COMPLETO*********");
+        System.out.println("\n****** SAÍDA DO JSON COMPLETO ******");
         System.out.println(json);
 
         ConverteDados conversor = new ConverteDados();
         DadosSerie dados = conversor.obterDados(json, DadosSerie.class);
 
-        System.out.println("");
-        System.out.println("******SAIDA APOS CONVERSAO*********");
-        System.out.println(dados);
+        System.out.println("\n****** SAÍDA APÓS CONVERSÃO ******");
+        System.out.println("Título: " + dados.titulo());
+        System.out.println("Total de Temporadas: " + dados.totalTemporadas());
+        System.out.println("Avaliação IMDb: " + dados.avaliacao());
     }
 }
