@@ -8,14 +8,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
+
     @Value("${OMDB_API_KEY}")
     String apiKey;
+
     public static void main(String[] args) {
         SpringApplication.run(ScreenmatchApplication.class, args);
     }
+
     @Override
     public void run(String... args) throws Exception {
         var consumoApi = new ConsumoApi();
+
         // Chamada da API OmDb
         var json = consumoApi.obterDados("https://www.omdbapi.com/?t=gilmore+girls&apikey=" + apiKey);
 
