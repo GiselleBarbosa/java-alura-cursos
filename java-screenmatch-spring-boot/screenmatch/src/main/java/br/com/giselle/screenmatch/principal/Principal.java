@@ -3,15 +3,16 @@ package br.com.giselle.screenmatch.principal;
 import br.com.giselle.screenmatch.models.DadosEpisodio;
 import br.com.giselle.screenmatch.models.DadosSerie;
 import br.com.giselle.screenmatch.models.DadosTemporada;
+import br.com.giselle.screenmatch.models.Episodio;
 import br.com.giselle.screenmatch.services.ConsumoApi;
 import br.com.giselle.screenmatch.services.ConverteDados;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Principal {
@@ -43,13 +44,15 @@ public class Principal {
             temporadas.add(dadosTemporada);
         }
 
+/*
         temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
+*/
 
-        List<DadosEpisodio> dadosEpisodios = temporadas.stream()
+       /* List<DadosEpisodio> dadosEpisodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream())
-                .toList();
+                .toList();*/
 
-        System.out.println("\n******TOP 10 EPISODIOS******");
+     /*   System.out.println("\n******TOP 10 EPISODIOS******");
         dadosEpisodios.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
                 .peek(e -> System.out.println("Primeiro filtro(N/A) " + e))
@@ -59,15 +62,14 @@ public class Principal {
                 .peek(e -> System.out.println("Limitando a 10 items " + e))
                 .map(e -> e.titulo().toUpperCase())
                 .peek(e -> System.out.println("Mapeando e alterando para UPPERCASE " + e))
+                .forEach(System.out::println);*/
 
-                .forEach(System.out::println);
-
-        /*List<Episodio> episodios = temporadas.stream()
+        List<Episodio> episodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream()
-                        .map(d -> new Episodio(d.numero(), d))
+                        .map(d -> new Episodio(t.numero(), d))
                 ).collect(Collectors.toList());
 
-        episodios.forEach(System.out::println);*/
+        episodios.forEach(System.out::println);
 
         /*System.out.println("A partir de que anos você deseja buscar os episódios? ");
         var ano = scanner.nextInt();
