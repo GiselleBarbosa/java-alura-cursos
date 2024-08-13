@@ -25,7 +25,7 @@ public class Principal {
     private static final String ENDERECO = "https://www.omdbapi.com/?t=";
 
     public void exibeMenu() {
-        System.out.println("\nDIGITE O NOME DA SÉRIE DESEJADA: ");
+        System.out.print("\nDIGITE O NOME DA SÉRIE DESEJADA: ");
         var nomeSerie = scanner.nextLine();
         var json = consumoApi.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + "&apikey=" + apiKey);
 
@@ -71,7 +71,7 @@ public class Principal {
 
             episodios.forEach(System.out::println);
 
-            System.out.println("\nDIGITE O NOME DO EPISÓDIO DESEJADO: ");
+            System.out.print("\nDIGITE O NOME DO EPISÓDIO DESEJADO: ");
             var trechoDoTitulo = scanner.nextLine();
             Optional<Episodio> episodioBuscado = episodios.stream()
                     .filter(e -> e.getTitulo()
@@ -82,7 +82,15 @@ public class Principal {
             try {
                 if (!episodioBuscado.isEmpty()) {
                     System.out.println("\nEpisódio: [" + episodioBuscado.get().getTitulo() + "] encontrado com sucesso!");
-                    System.out.println("\nTemporada: " + episodioBuscado.get().getTemporada());
+                    System.out.println("Temporada: " + episodioBuscado.get().getTemporada());
+
+                    Map<Integer, Double> avalicaoesPorTemporada = episodios.stream()
+                            .filter(e -> e.getNota() > 0.0)
+                            .collect(Collectors.groupingBy(Episodio::getTemporada, Collectors.averagingDouble(Episodio::getNota)));
+
+                    System.out.println("\n******* AVALIAÇÕES POR TEMPORADA *******");
+                    System.out.println(avalicaoesPorTemporada);
+
                 } else {
                     System.out.println("EPISÓDIO NÃO ENCONTRADO.");
 
@@ -111,6 +119,7 @@ public class Principal {
                                 "\n Avaliação: " + e.getNota() +
                                 "\n Data de lançamento: " + e.getDataLancamento().format(formatador)));
 */
+
         scanner.close();
     }
 }
