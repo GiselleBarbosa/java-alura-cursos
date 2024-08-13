@@ -3,6 +3,7 @@ package br.com.giselle.screenmatch.principal;
 import br.com.giselle.screenmatch.models.DadosEpisodio;
 import br.com.giselle.screenmatch.models.DadosSerie;
 import br.com.giselle.screenmatch.models.DadosTemporada;
+import br.com.giselle.screenmatch.models.Episodio;
 import br.com.giselle.screenmatch.services.ConsumoApi;
 import br.com.giselle.screenmatch.services.ConverteDados;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Principal {
@@ -55,6 +57,14 @@ public class Principal {
                         .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
                                 .limit(5)
                                         .forEach(System.out::println);
+
+        List<Episodio> episodios =  temporadas.stream()
+                .flatMap(t -> t.episodios().stream()
+                        .map(d -> new Episodio(d.numero(), d))
+                ).collect(Collectors.toList());
+
+        episodios.forEach(System.out::println);
+
         scanner.close();
     }
 }
