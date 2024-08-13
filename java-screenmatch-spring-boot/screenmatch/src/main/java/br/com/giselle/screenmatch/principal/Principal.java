@@ -9,6 +9,8 @@ import br.com.giselle.screenmatch.services.ConverteDados;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -54,16 +56,32 @@ public class Principal {
         System.out.println("\n******TOP 5 EPISODIOS******");
         dadosEpisodios.stream()
                 .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
-                        .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                                .limit(5)
-                                        .forEach(System.out::println);
+                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+                .limit(5)
+                .forEach(System.out::println);
 
-        List<Episodio> episodios =  temporadas.stream()
+        List<Episodio> episodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream()
                         .map(d -> new Episodio(d.numero(), d))
                 ).collect(Collectors.toList());
 
         episodios.forEach(System.out::println);
+
+        System.out.println("A partir de que anos você deseja buscar os episódios? ");
+        var ano = scanner.nextInt();
+        scanner.nextLine();
+
+        LocalDate dataBusca = LocalDate.of(ano, 1, 1);
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        episodios.stream()
+                .filter(e -> e.getDataLancamento() != null && e.getDataLancamento().isAfter(dataBusca))
+                .forEach(e -> System.out.println(
+                        "\n Temporada: " + e.getTemporada() +
+                                "\n Episódio: " + e.getTitulo() +
+                                "\n Avaliação: " + e.getNota() +
+                                "\n Data de lançamento: " + e.getDataLancamento().format(formatador)));
 
         scanner.close();
     }
