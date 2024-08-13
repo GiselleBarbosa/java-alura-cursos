@@ -1,6 +1,5 @@
 package br.com.giselle.screenmatch.principal;
 
-import br.com.giselle.screenmatch.models.DadosEpisodio;
 import br.com.giselle.screenmatch.models.DadosSerie;
 import br.com.giselle.screenmatch.models.DadosTemporada;
 import br.com.giselle.screenmatch.models.Episodio;
@@ -9,9 +8,7 @@ import br.com.giselle.screenmatch.services.ConverteDados;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,7 +25,7 @@ public class Principal {
     private static final String ENDERECO = "https://www.omdbapi.com/?t=";
 
     public void exibeMenu() {
-        System.out.println("Digite o nome da série desejada: ");
+        System.out.println("\nDIGITE O NOME DA SÉRIE DESEJADA: ");
         var nomeSerie = scanner.nextLine();
         var json = consumoApi.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + "&apikey=" + apiKey);
 
@@ -38,15 +35,18 @@ public class Principal {
 
         List<DadosTemporada> temporadas = new ArrayList<>();
 
-        for (int i = 1; i <= dados.totalTemporadas(); i++) {
-            json = consumoApi.obterDados(ENDERECO + nomeSerie.replace(" ", "+") + "&season=" + i + "&apikey=" + apiKey);
-            DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
-            temporadas.add(dadosTemporada);
-        }
-
-/*
-        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
-*/
+        try {
+            for (int i = 1; i <= dados.totalTemporadas(); i++) {
+                json = consumoApi.obterDados(ENDERECO + nomeSerie
+                        .replace(" ", "+")
+                        + "&season="
+                        + i
+                        + "&apikey="
+                        + apiKey);
+                DadosTemporada dadosTemporada = conversor.obterDados(json, DadosTemporada.class);
+                temporadas.add(dadosTemporada);
+            }
+            /*temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));*/
 
        /* List<DadosEpisodio> dadosEpisodios = temporadas.stream()
                 .flatMap(t -> t.episodios().stream())
@@ -64,12 +64,36 @@ public class Principal {
                 .peek(e -> System.out.println("Mapeando e alterando para UPPERCASE " + e))
                 .forEach(System.out::println);*/
 
-        List<Episodio> episodios = temporadas.stream()
-                .flatMap(t -> t.episodios().stream()
-                        .map(d -> new Episodio(t.numero(), d))
-                ).collect(Collectors.toList());
+            List<Episodio> episodios = temporadas.stream()
+                    .flatMap(t -> t.episodios().stream()
+                            .map(d -> new Episodio(t.numero(), d))
+                    ).collect(Collectors.toList());
 
-        episodios.forEach(System.out::println);
+            episodios.forEach(System.out::println);
+
+            System.out.println("\nDIGITE O NOME DO EPISÓDIO DESEJADO: ");
+            var trechoDoTitulo = scanner.nextLine();
+            Optional<Episodio> episodioBuscado = episodios.stream()
+                    .filter(e -> e.getTitulo()
+                            .toUpperCase()
+                            .contains(trechoDoTitulo.toUpperCase()))
+                    .findFirst();
+
+            try {
+                if (!episodioBuscado.isEmpty()) {
+                    System.out.println("\nEpisódio: [" + episodioBuscado.get().getTitulo() + "] encontrado com sucesso!");
+                    System.out.println("\nTemporada: " + episodioBuscado.get().getTemporada());
+                } else {
+                    System.out.println("EPISÓDIO NÃO ENCONTRADO.");
+
+                }
+            } catch (NoSuchElementException ex) {
+                System.out.println("ERRO INESPERADO AO BUSCAR O EPISODIO: " + episodioBuscado.get().getTitulo());
+            }
+
+        } catch (NullPointerException ex) {
+            System.out.println("HOUVE UM ERRO AO BUSCAR A SERIE.");
+        }
 
         /*System.out.println("A partir de que anos você deseja buscar os episódios? ");
         var ano = scanner.nextInt();

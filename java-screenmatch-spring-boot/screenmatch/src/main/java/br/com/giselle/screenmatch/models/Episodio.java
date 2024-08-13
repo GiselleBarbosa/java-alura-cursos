@@ -26,7 +26,7 @@ public class Episodio {
             this.dataLancamento = LocalDate.parse(dadosEpisodio.dataLancamento());
         } catch (DateTimeParseException ex) {
             this.dataLancamento = null;
-            System.out.println("Erro inesperado.");
+            System.out.println("ERRO AO TENTAR CONVERTER A DATA DE LANÇAMENTO.");
         }
     }
 
