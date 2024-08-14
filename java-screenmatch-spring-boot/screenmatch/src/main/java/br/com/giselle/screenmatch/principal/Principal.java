@@ -89,7 +89,17 @@ public class Principal {
                             .collect(Collectors.groupingBy(Episodio::getTemporada, Collectors.averagingDouble(Episodio::getNota)));
 
                     System.out.println("\n******* AVALIAÇÕES POR TEMPORADA *******");
-                    System.out.println(avalicaoesPorTemporada);
+                    System.out.println("\n" + avalicaoesPorTemporada);
+
+                    DoubleSummaryStatistics est = episodios.stream()
+                            .filter(e -> e.getNota() > 0.0)
+                            .collect(Collectors.summarizingDouble(Episodio::getNota));
+                    System.out.println("\n******* ESTATISTICAS  *******");
+                    System.out.println(est);
+                    System.out.println("\nForam avaliados: " + est.getCount() + " episódios");
+                    System.out.println("Média das avaliações: " + est.getAverage());
+                    System.out.println("Menor nota: " + est.getMin());
+                    System.out.println("Maior nota: " + est.getMax());
 
                 } else {
                     System.out.println("EPISÓDIO NÃO ENCONTRADO.");
