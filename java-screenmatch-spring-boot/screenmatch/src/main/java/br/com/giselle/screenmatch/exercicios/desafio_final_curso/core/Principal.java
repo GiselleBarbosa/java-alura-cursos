@@ -1,15 +1,19 @@
 package br.com.giselle.screenmatch.exercicios.desafio_final_curso.core;
 
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.DadosModelos;
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.DadosVeiculos;
 import br.com.giselle.screenmatch.exercicios.desafio_final_curso.services.ConsumoApi;
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.services.ConverteDados;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.Scanner;
 
 @Component
-public class Main {
+public class Principal {
     private final Scanner scanner = new Scanner(System.in);
-
     private final ConsumoApi consumoApi = new ConsumoApi();
+    private final ConverteDados conversor = new ConverteDados();
 
     private static final String API_FIPE = "https://parallelum.com.br/fipe/api/v1/";
     private static final String MARCAS = "marcas";
@@ -41,10 +45,22 @@ public class Main {
 
         System.out.println("Você selecionou: " + tipoVeiculoSelecionado);
 
+        var json = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS);
+        var marcas = conversor.obterLista(json, DadosVeiculos.class);
 
-        var apiEndereco = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS);
-        System.out.println(apiEndereco);
+        marcas.stream().sorted(Comparator.comparing(DadosVeiculos::codigo)).forEach(System.out::println);
+
+        System.out.print("\nDIGITE O CODIGO DA MARCA PARA CONSULTA: ");
+
+        var codigoMarca = scanner.nextLine();
+
+        var jsonModelo = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS + "/" + codigoMarca + "/modelos");
+        var modelos = conversor.obterDados(jsonModelo, DadosModelos.class);
+
+        System.out.println("\nCONFIRA OS MODELOS DESTA MARCA: ");
+        modelos.modelos().stream()
+                .sorted(Comparator.comparing(DadosVeiculos::codigo))
+                .forEach(System.out::println);
+
     }
-
-
 }
