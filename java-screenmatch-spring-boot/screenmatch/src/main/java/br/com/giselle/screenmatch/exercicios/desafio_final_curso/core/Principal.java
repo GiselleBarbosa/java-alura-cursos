@@ -7,7 +7,9 @@ import br.com.giselle.screenmatch.exercicios.desafio_final_curso.services.Conver
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class Principal {
@@ -55,12 +57,24 @@ public class Principal {
         var codigoMarca = scanner.nextLine();
 
         var jsonModelo = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS + "/" + codigoMarca + "/modelos");
-        var modelos = conversor.obterDados(jsonModelo, DadosModelos.class);
+        var modelosLista = conversor.obterDados(jsonModelo, DadosModelos.class);
 
         System.out.println("\nCONFIRA OS MODELOS DESTA MARCA: ");
-        modelos.modelos().stream()
+        modelosLista.modelos().stream()
                 .sorted(Comparator.comparing(DadosVeiculos::codigo))
                 .forEach(System.out::println);
+
+        System.out.println("\nDIGITE O NOME DO MODELO QUE DESEJA CONSULTAR: ");
+
+        var nomeVeiculo = scanner.nextLine();
+
+        List<DadosVeiculos> modelosFiltrados = modelosLista.modelos().stream()
+                .filter(m -> m.nome().toLowerCase().contains(nomeVeiculo.toLowerCase()))
+                .collect(Collectors.toList());
+
+        System.out.println("\nMODELOS ENCONTRADOS: ");
+
+        modelosFiltrados.forEach(System.out::println);
 
     }
 }
