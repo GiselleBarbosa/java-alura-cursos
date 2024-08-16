@@ -126,6 +126,21 @@ public class Principal {
         } catch (Exception e) {
             System.out.println("Ocorreu um erro durante a consulta: " + e.getMessage());
         }
+
+        realizarNovaBuscaOuEncerrar();
+    }
+
+    private void realizarNovaBuscaOuEncerrar() {
+        System.out.print("\nDeseja realizar uma nova busca? Digite 'S' para sim ou qualquer outra tecla para encerrar: ");
+        String resposta = scanner.nextLine().trim().toLowerCase();
+
+        if (resposta.equals("s")) {
+            tipoVeiculoSelecionado = null;
+            exibeMenu();
+        } else {
+            System.out.println("Obrigado por utilizar o sistema de consulta à Tabela FIPE. Até a próxima!");
+            System.exit(0);
+        }
     }
 
     private String construirUrlMarcas() {
