@@ -6,5 +6,5 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true
 )
-public record DadosModelos(List<DadosVeiculos> modelos) {
+public record Modelos(List<Marcas> modelos) {
 }

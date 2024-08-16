@@ -1,11 +1,13 @@
 package br.com.giselle.screenmatch.exercicios.desafio_final_curso.core;
 
-import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.DadosModelos;
-import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.DadosVeiculos;
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.Marcas;
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.Modelos;
+import br.com.giselle.screenmatch.exercicios.desafio_final_curso.model.Veiculos;
 import br.com.giselle.screenmatch.exercicios.desafio_final_curso.services.ConsumoApi;
 import br.com.giselle.screenmatch.exercicios.desafio_final_curso.services.ConverteDados;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
@@ -47,34 +49,98 @@ public class Principal {
 
         System.out.println("Você selecionou: " + tipoVeiculoSelecionado);
 
-        var json = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS);
-        var marcas = conversor.obterLista(json, DadosVeiculos.class);
+        try {
+            var json = consumoApi.obterDados(construirUrlMarcas());
+            var marcas = conversor.obterLista(json, Marcas.class);
 
-        marcas.stream().sorted(Comparator.comparing(DadosVeiculos::codigo)).forEach(System.out::println);
+            if (marcas.isEmpty()) {
+                System.out.println("Nenhuma marca encontrada para o tipo de veículo selecionado.");
+                return;
+            }
 
-        System.out.print("\nDIGITE O CODIGO DA MARCA PARA CONSULTA: ");
+            marcas.stream().sorted(Comparator.comparing(Marcas::codigo)).forEach(System.out::println);
 
-        var codigoMarca = scanner.nextLine();
+            System.out.print("\nDIGITE O CODIGO DA MARCA PARA CONSULTA: ");
+            var codigoMarca = scanner.nextLine();
 
-        var jsonModelo = consumoApi.obterDados(API_FIPE + this.tipoVeiculoSelecionado + "/" + MARCAS + "/" + codigoMarca + "/modelos");
-        var modelosLista = conversor.obterDados(jsonModelo, DadosModelos.class);
+            var jsonModelo = consumoApi.obterDados(construirUrlModelos(codigoMarca));
+            var modelosLista = conversor.obterDados(jsonModelo, Modelos.class);
 
-        System.out.println("\nCONFIRA OS MODELOS DESTA MARCA: ");
-        modelosLista.modelos().stream()
-                .sorted(Comparator.comparing(DadosVeiculos::codigo))
-                .forEach(System.out::println);
+            if (modelosLista.modelos().isEmpty()) {
+                System.out.println("Nenhum modelo encontrado para a marca selecionada.");
+                return;
+            }
 
-        System.out.println("\nDIGITE O NOME DO MODELO QUE DESEJA CONSULTAR: ");
+            System.out.println("\n>> CONFIRA OS MODELOS DESTA MARCA ");
+            modelosLista.modelos().stream()
+                    .sorted(Comparator.comparing(Marcas::codigo))
+                    .forEach(System.out::println);
 
-        var nomeVeiculo = scanner.nextLine();
+            System.out.print("\nDIGITE O NOME DO MODELO QUE DESEJA CONSULTAR: ");
+            var nomeVeiculo = scanner.nextLine();
 
-        List<DadosVeiculos> modelosFiltrados = modelosLista.modelos().stream()
-                .filter(m -> m.nome().toLowerCase().contains(nomeVeiculo.toLowerCase()))
-                .collect(Collectors.toList());
+            List<Marcas> modelosFiltrados = modelosLista.modelos().stream()
+                    .filter(m -> m.nome().toLowerCase().contains(nomeVeiculo.toLowerCase()))
+                    .collect(Collectors.toList());
 
-        System.out.println("\nMODELOS ENCONTRADOS: ");
+            if (modelosFiltrados.isEmpty()) {
+                System.out.println("Nenhum modelo encontrado com o nome fornecido.");
+                return;
+            }
 
-        modelosFiltrados.forEach(System.out::println);
+            System.out.println("\n>> MODELOS ENCONTRADOS: ");
+            modelosFiltrados.forEach(System.out::println);
 
+            System.out.print("\nDIGITE O CÓDIGO DO MODELO QUE DESEJA CONSULTAR: ");
+            var codigoModelo = scanner.nextLine();
+
+            var urlAnos = construirUrlAnos(codigoMarca, codigoModelo);
+            json = consumoApi.obterDados(urlAnos);
+
+            List<Marcas> anos = conversor.obterLista(json, Marcas.class);
+            if (anos.isEmpty()) {
+                System.out.println("Nenhuma avaliação encontrada para o modelo selecionado.");
+                return;
+            }
+
+            List<Veiculos> veiculos = new ArrayList<>();
+
+            for (var ano : anos) {
+                try {
+                    var urlVeiculoPorAno = construirUrlVeiculoPorAno(codigoMarca, codigoModelo, ano.codigo());
+                    json = consumoApi.obterDados(urlVeiculoPorAno);
+                    Veiculos veiculo = conversor.obterDados(json, Veiculos.class);
+                    veiculos.add(veiculo);
+                } catch (Exception e) {
+                    System.out.println("Erro ao buscar dados para o ano " + ano.codigo() + ": " + e.getMessage());
+                }
+            }
+
+            if (veiculos.isEmpty()) {
+                System.out.println("Nenhum veículo encontrado.");
+            } else {
+                System.out.println("\nTODOS OS VEICULOS FILTROS COM AVALIAÇÃO POR ANO: ");
+                veiculos.forEach(System.out::println);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Ocorreu um erro durante a consulta: " + e.getMessage());
+        }
+    }
+
+    private String construirUrlMarcas() {
+        return API_FIPE + tipoVeiculoSelecionado + "/" + MARCAS;
+    }
+
+    private String construirUrlModelos(String codigoMarca) {
+        return API_FIPE + tipoVeiculoSelecionado + "/" + MARCAS + "/" + codigoMarca + "/modelos";
+    }
+
+    private String construirUrlAnos(String codigoMarca, String codigoModelo) {
+        return API_FIPE + tipoVeiculoSelecionado + "/" + MARCAS + "/" + codigoMarca + "/modelos" + "/" + codigoModelo + "/anos";
+    }
+
+    private String construirUrlVeiculoPorAno(String codigoMarca, String codigoModelo, String anoCodigo) {
+        return construirUrlAnos(codigoMarca, codigoModelo) + "/" + anoCodigo;
     }
 }
