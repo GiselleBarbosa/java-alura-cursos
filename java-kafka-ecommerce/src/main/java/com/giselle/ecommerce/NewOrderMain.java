@@ -1,5 +1,6 @@
 package com.giselle.ecommerce;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -13,12 +14,20 @@ public class NewOrderMain {
         var producer = new KafkaProducer<String, String>(properties());
         var value = "121523, 62242, 785985545245";
         var record = new ProducerRecord<String, String>("ECOMMERCE_NEW_ORDER", value, value);
-        producer.send(record, (data, ex) -> {
+
+        Callback callback = (data, ex) -> {
             if (ex != null) {
-                ex.printStackTrace();
+                ex.printStackTrace(System.err);
+                return;
             }
-                System.out.println("Sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp() );
-        }).get();
+            System.out.println("Sucesso enviando " + data.topic() + ":::partition " + data.partition() + "/ offset " + data.offset() + "/ timestamp " + data.timestamp());
+        };
+
+        var email = "Recebemos seu pedido, e ele já está sendo processado!";
+        var emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, email);
+
+        producer.send(record).get();
+        producer.send(emailRecord, callback).get();
     }
 
     private static Properties properties() {
