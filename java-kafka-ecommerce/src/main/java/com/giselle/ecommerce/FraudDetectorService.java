@@ -19,18 +19,18 @@ public class FraudDetectorService {
                 System.out.println("Encontrei " + records.count() + " registros");
                 for (var record : records) {
                     System.out.println("------------------------------------------");
-                    System.out.println("Processing new order, checking for fraud");
+                    System.out.println("Processando novo pedido. Checando risco de fraude.");
                     System.out.println(record.key());
                     System.out.println(record.value());
                     System.out.println(record.partition());
                     System.out.println(record.offset());
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         // ignoring
-                        e.printStackTrace();
+                        e.printStackTrace(System.err);
                     }
-                    System.out.println("Order processed");
+                    System.out.println("Pedido processado!");
                 }
             }
         }
