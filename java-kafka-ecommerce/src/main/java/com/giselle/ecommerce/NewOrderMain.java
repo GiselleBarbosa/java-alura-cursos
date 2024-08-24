@@ -26,7 +26,7 @@ public class NewOrderMain {
         var email = "Recebemos seu pedido, e ele já está sendo processado!";
         var emailRecord = new ProducerRecord<>("ECOMMERCE_SEND_EMAIL", email, email);
 
-        producer.send(record).get();
+        producer.send(record, callback).get();
         producer.send(emailRecord, callback).get();
     }
 
