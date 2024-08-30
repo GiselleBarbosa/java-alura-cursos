@@ -12,6 +12,7 @@ target/
 *.iws
 *.iml
 *.ipr
+*.xml
 encodings.xml
 git_toolbox_prj.xml
 
