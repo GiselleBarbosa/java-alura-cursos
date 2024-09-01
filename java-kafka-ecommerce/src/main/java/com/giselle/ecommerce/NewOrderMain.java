@@ -1,19 +1,25 @@
 package com.giselle.ecommerce;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 public class NewOrderMain {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        try (var dispatcher = new KafkaDispatcher()) {
-            for (var i = 0; i < 10; i++) {
+        try (var orderDispatcher = new KafkaDispatcher<Order>()) {
+            try (var emailDispatcher = new KafkaDispatcher<String>()) {
+                for (var i = 0; i < 10; i++) {
 
-                var key = UUID.randomUUID().toString();
-                var value = key + ", 62242, 785985545245";
-                dispatcher.send("ECOMMERCE_NEW_ORDER", key, value);
+                    var userId = UUID.randomUUID().toString();
+                    var orderId = UUID.randomUUID().toString();
+                    var amount = new BigDecimal(Math.random() * 5000 + 1);
 
-                var email = "Recebemos seu pedido, e ele já está sendo processado!";
-                dispatcher.send("ECOMMERCE_SEND_EMAIL", key, email);
+                    var order = new Order(userId, orderId, amount);
+                    orderDispatcher.send("ECOMMERCE_NEW_ORDER", userId, order);
+
+                    var email = "Recebemos seu pedido, e ele já está sendo processado!";
+                    emailDispatcher.send("ECOMMERCE_SEND_EMAIL", userId, email);
+                }
             }
         }
     }
