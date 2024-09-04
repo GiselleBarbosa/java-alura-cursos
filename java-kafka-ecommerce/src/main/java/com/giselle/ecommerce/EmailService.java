@@ -8,7 +8,7 @@ public class EmailService {
         var emailService = new EmailService();
         try (var service = new KafkaService(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_SEND_EMAIL",
-                emailService::parse)) {
+                emailService::parse, String.class)) {
             service.run();
         }
     }
@@ -16,10 +16,10 @@ public class EmailService {
     private void parse(ConsumerRecord<String, String> record) {
         System.out.println("------------------------------------------");
         System.out.println("Enviando email.");
-        System.out.println(record.key());
-        System.out.println(record.value());
-        System.out.println(record.partition());
-        System.out.println(record.offset());
+        System.out.println("record.key " + record.key());
+        System.out.println("record.value " + record.value());
+        System.out.println("record.partition "+record.partition());
+        System.out.println("record.offset() " + record.offset());
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {

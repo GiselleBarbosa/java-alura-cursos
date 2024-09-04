@@ -11,7 +11,7 @@ public class LogService {
 
         try (var service = new KafkaService(LogService.class.getSimpleName(),
                 Pattern.compile("ECOMMERCE.*"),
-                logService::parse)) {
+                logService::parse, String.class)) {
             service.run();
         }
     }
@@ -19,9 +19,9 @@ public class LogService {
     private void parse(ConsumerRecord<String, String> record) {
         System.out.println("------------------------------------------");
         System.out.println("LOG: ");
-        System.out.println(record.key());
-        System.out.println(record.value());
-        System.out.println(record.partition());
-        System.out.println(record.offset());
+        System.out.println("record.key " + record.key());
+        System.out.println("record.value " + record.value());
+        System.out.println("record.partition "+record.partition());
+        System.out.println("record.offset() " + record.offset());
     }
 }
