@@ -2,6 +2,8 @@ package com.giselle.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 
+import java.util.Map;
+
 public class FraudDetectorService {
 
     public static void main(String[] args) {
@@ -9,7 +11,7 @@ public class FraudDetectorService {
 
         try (var service = new KafkaService<Order>(FraudDetectorService.class.getSimpleName(),
                 "ECOMMERCE_NEW_ORDER",
-                fraudService::parse, Order.class)) {
+                fraudService::parse, Order.class, Map.of())) {
             service.run();
         }
     }
@@ -19,7 +21,7 @@ public class FraudDetectorService {
         System.out.println("Processando novo pedido. Checando risco de fraude.");
         System.out.println("record.key " + record.key());
         System.out.println("record.value " + record.value());
-        System.out.println("record.partition "+record.partition());
+        System.out.println("record.partition " + record.partition());
         System.out.println("record.offset() " + record.offset());
         try {
             Thread.sleep(5000);
