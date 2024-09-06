@@ -1,4 +1,4 @@
-package com.giselle.ecommerce;
+package br.com.giselle.ecommerce;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;

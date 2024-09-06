@@ -1,4 +1,4 @@
-package com.giselle.ecommerce;
+package br.com.giselle.ecommerce;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

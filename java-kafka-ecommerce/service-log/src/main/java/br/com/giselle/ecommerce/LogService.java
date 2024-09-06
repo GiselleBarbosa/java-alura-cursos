@@ -1,4 +1,4 @@
-package com.giselle.ecommerce;
+package br.com.giselle.ecommerce;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
