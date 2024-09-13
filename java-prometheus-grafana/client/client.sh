@@ -29,7 +29,7 @@ while true
 	    curl --silent --output /dev/null http://${HOST}/topicos/0
         fi
 
-	#sleep $TEMP
-	sleep 0.75
+	sleep $TEMP
+	#sleep 0.75
 done
 
