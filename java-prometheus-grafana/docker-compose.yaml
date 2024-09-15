@@ -45,8 +45,8 @@ services:
 
   app-forum-api:
     build:
-      context: ./
-      dockerfile: app/Dockerfile
+      context: ./app/
+      dockerfile: Dockerfile
     image: app-forum-api
     container_name: app-forum-api
     restart: unless-stopped
@@ -85,7 +85,6 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus-forum-api
     restart: unless-stopped
-    user: root
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
       - ./prometheus/prometheus_data:/prometheus
@@ -102,6 +101,21 @@ services:
       - api
     depends_on:
       - proxy-forum-api
+    user: root
+
+  grafana-forum-api:
+    image: grafana/grafana
+    container_name: grafana-forum-api
+    volumes:
+      - ./grafana:/var/lib/grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    networks:
+      - monit
+    depends_on:
+      - prometheus-forum-api
+    user: root
 
   client-forum-api:
     build:
@@ -113,4 +127,4 @@ services:
     networks:
       - proxy
     depends_on:
-      - prometheus-forum-api
+      - grafana-forum-api
