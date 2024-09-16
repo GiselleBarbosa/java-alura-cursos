@@ -120,6 +120,80 @@
 				"type": "prometheus",
 				"uid": "ddxzsofirm3uoa"
 			},
+			"description": "Número de erros 500 no último minuto",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-green",
+								"value": null
+							},
+							{
+								"color": "dark-red",
+								"value": 3
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 4,
+				"w": 4,
+				"x": 4,
+				"y": 1
+			},
+			"id": 14,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(increase(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\", status=\"500\"}[1m]))",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "ERROR 500",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
 			"description": "Tempo de resposta no último minuto.",
 			"fieldConfig": {
 				"defaults": {
@@ -251,8 +325,8 @@
 			},
 			"gridPos": {
 				"h": 8,
-				"w": 20,
-				"x": 4,
+				"w": 15,
+				"x": 8,
 				"y": 1
 			},
 			"id": 13,
@@ -294,12 +368,192 @@
 			"type": "timeseries"
 		},
 		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Taxa de erros nos últimos 5 minutos.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 16,
+						"gradientMode": "opacity",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-green",
+								"value": null
+							}
+						]
+					},
+					"unit": "percentunit"
+				},
+				"overrides": [
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "500"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "semi-dark-red",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "404"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "yellow",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "400"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "orange",
+									"mode": "fixed"
+								}
+							}
+						]
+					}
+				]
+			},
+			"gridPos": {
+				"h": 6,
+				"w": 8,
+				"x": 0,
+				"y": 5
+			},
+			"id": 15,
+			"options": {
+				"legend": {
+					"calcs": ["min", "max", "mean", "sum"],
+					"displayMode": "table",
+					"placement": "bottom",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\", status=\"500\"}[5m])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[5m]))",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "500",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\", status=\"400\"}[5m])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[5m]))",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "400",
+					"range": true,
+					"refId": "B",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\", status=\"404\"}[5m])) / sum(rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[5m]))",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "404",
+					"range": true,
+					"refId": "C",
+					"useBackend": false
+				}
+			],
+			"title": "ERROR RATE",
+			"type": "timeseries"
+		},
+		{
 			"collapsed": false,
 			"gridPos": {
 				"h": 1,
 				"w": 24,
 				"x": 0,
-				"y": 9
+				"y": 11
 			},
 			"id": 2,
 			"panels": [],
@@ -340,7 +594,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 0,
-				"y": 10
+				"y": 12
 			},
 			"id": 3,
 			"options": {
@@ -421,7 +675,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 4,
-				"y": 10
+				"y": 12
 			},
 			"id": 6,
 			"options": {
@@ -524,7 +778,7 @@
 				"h": 9,
 				"w": 16,
 				"x": 8,
-				"y": 10
+				"y": 12
 			},
 			"id": 9,
 			"options": {
@@ -624,7 +878,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 0,
-				"y": 13
+				"y": 15
 			},
 			"id": 4,
 			"options": {
@@ -702,7 +956,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 4,
-				"y": 13
+				"y": 15
 			},
 			"id": 5,
 			"options": {
@@ -776,7 +1030,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 0,
-				"y": 16
+				"y": 18
 			},
 			"id": 8,
 			"options": {
@@ -855,7 +1109,7 @@
 				"h": 3,
 				"w": 4,
 				"x": 4,
-				"y": 16
+				"y": 18
 			},
 			"id": 10,
 			"options": {
@@ -1005,10 +1259,10 @@
 				]
 			},
 			"gridPos": {
-				"h": 11,
+				"h": 8,
 				"w": 24,
 				"x": 0,
-				"y": 19
+				"y": 21
 			},
 			"id": 7,
 			"options": {
