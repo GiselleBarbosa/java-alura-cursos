@@ -2,7 +2,7 @@ FROM debian
 
 USER root
 
-COPY client.sh /scripts/client.sh
+COPY ./client.sh /scripts/client.sh
 
 RUN apt update && \
         apt install curl -y && \

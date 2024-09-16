@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Com as configurações atuais, o client faz uma requisição por segundo,
+# Com as ocnfigurações atuais, o client faz uma requisição por segundo,
 # Para aumentar o número de requisições por segundo, descomente as linhas 
 # 14 e 32 e comente a linha 33, você terá que remover tanto a imagem como
 # o container client-forum-api e subir a stack novamente para o rebuild.
@@ -29,7 +29,7 @@ while true
 	    curl --silent --output /dev/null http://${HOST}/topicos/0
         fi
 
-	sleep $TEMP
-	#sleep 0.75
+	#sleep $TEMP
+	sleep 0.75
 done
 
