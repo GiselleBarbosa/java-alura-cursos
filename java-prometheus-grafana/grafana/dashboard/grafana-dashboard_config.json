@@ -1,917 +1,1170 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
-  },
-  "description": "Dashboard construído para acompanhar métricas da aplicação forum api",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 2,
-  "links": [],
-  "liveNow": true,
-  "panels": [
-    {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 2,
-      "panels": [],
-      "title": "API BASIC",
-      "type": "row"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "API uptime",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "percentage",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "dark-blue",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "dthms"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 1
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {},
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "process_uptime_seconds{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "UPTIME",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Erros de autenticação no último minuto.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 5
-              },
-              {
-                "color": "red",
-                "value": 10
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 1
-      },
-      "id": 6,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "increase(auth_user_error_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}[20m])",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "AUTH ERRORS",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Estado das conexões com o database",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "opacity",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 16,
-        "x": 8,
-        "y": 1
-      },
-      "id": 9,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "lastNotNull"
-          ],
-          "displayMode": "table",
-          "placement": "right",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "hikaricp_connections_active{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "active",
-          "range": true,
-          "refId": "active",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "hikaricp_connections_idle{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "idle",
-          "range": true,
-          "refId": "idle",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "hikaricp_connections_pending{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "pending",
-          "range": true,
-          "refId": "pending",
-          "useBackend": false
-        }
-      ],
-      "title": "CONNECTION STATE",
-      "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Hora da inicializacao da API",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-blue",
-                "value": null
-              }
-            ]
-          },
-          "unit": "dateTimeAsLocalNoDateIfToday"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 4
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/^Time$/",
-          "values": false
-        },
-        "showPercentChange": false,
-        "text": {
-          "titleSize": 1
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "process_start_time_seconds{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"} * 1000",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "START TIME",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Usuários logados no último minuto.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "semi-dark-green",
-                "value": 1
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 4
-      },
-      "id": 5,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "increase(auth_user_success_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}[1m])",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "USERS LOGGED",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Pool de conexões JDBC",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "green",
-                "value": 10
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 0,
-        "y": 7
-      },
-      "id": 8,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "hikaricp_connections{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "A",
-          "useBackend": false
-        }
-      ],
-      "title": "JDBC POOL",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Conexão com o DB em timeout.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 5
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 4,
-        "x": 4,
-        "y": 7
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.2.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "increase(hikaricp_connections_timeout_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}[1m])",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "__auto",
-          "range": true,
-          "refId": "active",
-          "useBackend": false
-        }
-      ],
-      "title": "DB CONNECTION TIMEOUT",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "prometheus",
-        "uid": "ddxzsofirm3uoa"
-      },
-      "description": "Warnings e erros logados nos últimos 5 minutos.",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 9,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineStyle": {
-              "fill": "solid"
-            },
-            "lineWidth": 1,
-            "pointSize": 4,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "dark-red",
-                "value": null
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "error"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "red",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "warn"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "sum(increase(logback_events_total{application=\"app-forum-api\", instance=\"app-forum-api:8080\", job=\"app-forum-api\", level=\"warn\"}[5m]))"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 11,
-        "w": 24,
-        "x": 0,
-        "y": 10
-      },
-      "id": 7,
-      "options": {
-        "legend": {
-          "calcs": [
-            "min",
-            "max",
-            "lastNotNull",
-            "sum"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "exemplar": false,
-          "expr": "sum(increase(logback_events_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", level=\"warn\"}[5m]))",
-          "format": "time_series",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "interval": "",
-          "legendFormat": "warn",
-          "range": true,
-          "refId": "Warn",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "ddxzsofirm3uoa"
-          },
-          "disableTextWrap": false,
-          "editorMode": "builder",
-          "expr": "increase(logback_events_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", level=\"error\"}[5m])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "{{level}}",
-          "range": true,
-          "refId": "Error",
-          "useBackend": false
-        }
-      ],
-      "title": "WARN & ERROR LOG",
-      "type": "timeseries"
-    }
-  ],
-  "refresh": "10s",
-  "schemaVersion": 39,
-  "tags": [],
-  "templating": {
-    "list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "app-forum-api",
-          "value": "app-forum-api"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "ddxzsofirm3uoa"
-        },
-        "definition": "label_values(application)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "application",
-        "multi": false,
-        "name": "application",
-        "options": [],
-        "query": {
-          "qryType": 5,
-          "query": "label_values(application)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "app-forum-api:8080",
-          "value": "app-forum-api:8080"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "ddxzsofirm3uoa"
-        },
-        "definition": "label_values(jvm_classes_loaded_classes{application=\"$application\"}, instance)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "instance",
-        "multi": false,
-        "name": "instance",
-        "options": [],
-        "query": {
-          "qryType": 5,
-          "query": "label_values(jvm_classes_loaded_classes{application=\"$application\"}, instance)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      },
-      {
-        "current": {
-          "selected": false,
-          "text": "HikariPool-1",
-          "value": "HikariPool-1"
-        },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "ddxzsofirm3uoa"
-        },
-        "definition": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "pool",
-        "multi": false,
-        "name": "pool",
-        "options": [],
-        "query": {
-          "qryType": 5,
-          "query": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
-        "type": "query"
-      }
-    ]
-  },
-  "time": {
-    "from": "now-5m",
-    "to": "now"
-  },
-  "timepicker": {},
-  "timezone": "browser",
-  "title": "Dashboard-forum-api",
-  "uid": "edxzt7n6my5tsc",
-  "version": 8,
-  "weekStart": ""
+	"annotations": {
+		"list": [
+			{
+				"builtIn": 1,
+				"datasource": {
+					"type": "grafana",
+					"uid": "-- Grafana --"
+				},
+				"enable": true,
+				"hide": true,
+				"iconColor": "rgba(0, 211, 255, 1)",
+				"name": "Annotations & Alerts",
+				"type": "dashboard"
+			}
+		]
+	},
+	"description": "Dashboard construído para acompanhar métricas da aplicação forum api",
+	"editable": true,
+	"fiscalYearStartMonth": 0,
+	"graphTooltip": 0,
+	"id": 2,
+	"links": [],
+	"liveNow": true,
+	"panels": [
+		{
+			"collapsed": false,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 0
+			},
+			"id": 11,
+			"panels": [],
+			"title": "API RED",
+			"type": "row"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Número de requisições no último minuto.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-red",
+								"value": null
+							},
+							{
+								"color": "orange",
+								"value": 30.0001
+							},
+							{
+								"color": "dark-green",
+								"value": 60
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 4,
+				"w": 4,
+				"x": 0,
+				"y": 1
+			},
+			"id": 12,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(increase(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[1m]))",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": " TOTAL REQUESTS",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Tempo de resposta no último minuto.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 12,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-red",
+								"value": null
+							}
+						]
+					},
+					"unit": "s"
+				},
+				"overrides": [
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "/topicos GET 500"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "red",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "/topicos/{id} GET 200"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "dark-green",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "/topicos GET 200"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "semi-dark-green",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "/auth POST 400"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "semi-dark-orange",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "/topicos/{id} GET 500"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "super-light-yellow",
+									"mode": "fixed"
+								}
+							}
+						]
+					}
+				]
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 20,
+				"x": 4,
+				"y": 1
+			},
+			"id": 13,
+			"options": {
+				"legend": {
+					"calcs": ["min", "max", "lastNotNull", "mean"],
+					"displayMode": "table",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"exemplar": false,
+					"expr": "rate(http_server_requests_seconds_sum{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[1m]) / rate(http_server_requests_seconds_count{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", uri!=\"/actuator/prometheus\"}[1m])",
+					"format": "time_series",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"interval": "",
+					"legendFormat": "{{uri}} {{method}} {{status}}",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "RESPONSE TIME",
+			"type": "timeseries"
+		},
+		{
+			"collapsed": false,
+			"gridPos": {
+				"h": 1,
+				"w": 24,
+				"x": 0,
+				"y": 9
+			},
+			"id": 2,
+			"panels": [],
+			"title": "API BASIC",
+			"type": "row"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "API uptime",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "percentage",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							},
+							{
+								"color": "dark-blue",
+								"value": 80
+							}
+						]
+					},
+					"unit": "dthms"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 0,
+				"y": 10
+			},
+			"id": 3,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "center",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"text": {},
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"expr": "process_uptime_seconds{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "UPTIME",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Erros de autenticação no último minuto.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"decimals": 0,
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							},
+							{
+								"color": "yellow",
+								"value": 5
+							},
+							{
+								"color": "red",
+								"value": 10
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 4,
+				"y": 10
+			},
+			"id": 6,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "increase(auth_user_error_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}[20m])",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "AUTH ERRORS",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Estado das conexões com o database",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 10,
+						"gradientMode": "opacity",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 9,
+				"w": 16,
+				"x": 8,
+				"y": 10
+			},
+			"id": 9,
+			"options": {
+				"legend": {
+					"calcs": ["min", "max", "lastNotNull"],
+					"displayMode": "table",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "hikaricp_connections_active{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "active",
+					"range": true,
+					"refId": "active",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "hikaricp_connections_idle{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "idle",
+					"range": true,
+					"refId": "idle",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "hikaricp_connections_pending{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "pending",
+					"range": true,
+					"refId": "pending",
+					"useBackend": false
+				}
+			],
+			"title": "CONNECTION STATE",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Hora da inicializacao da API",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-blue",
+								"value": null
+							}
+						]
+					},
+					"unit": "dateTimeAsLocalNoDateIfToday"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 0,
+				"y": 13
+			},
+			"id": 4,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "center",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "/^Time$/",
+					"values": false
+				},
+				"showPercentChange": false,
+				"text": {
+					"titleSize": 1
+				},
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "process_start_time_seconds{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"} * 1000",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "START TIME",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Usuários logados no último minuto.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"decimals": 0,
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "red",
+								"value": null
+							},
+							{
+								"color": "semi-dark-green",
+								"value": 1
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 4,
+				"y": 13
+			},
+			"id": 5,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "increase(auth_user_success_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\"}[1m])",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "USERS LOGGED",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Pool de conexões JDBC",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "red",
+								"value": null
+							},
+							{
+								"color": "green",
+								"value": 10
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 0,
+				"y": 16
+			},
+			"id": 8,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"expr": "hikaricp_connections{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "JDBC POOL",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Conexão com o DB em timeout.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "thresholds"
+					},
+					"decimals": 0,
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							},
+							{
+								"color": "yellow",
+								"value": 2
+							},
+							{
+								"color": "red",
+								"value": 5
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 3,
+				"w": 4,
+				"x": 4,
+				"y": 16
+			},
+			"id": 10,
+			"options": {
+				"colorMode": "value",
+				"graphMode": "none",
+				"justifyMode": "auto",
+				"orientation": "auto",
+				"percentChangeColorMode": "standard",
+				"reduceOptions": {
+					"calcs": ["lastNotNull"],
+					"fields": "",
+					"values": false
+				},
+				"showPercentChange": false,
+				"textMode": "auto",
+				"wideLayout": true
+			},
+			"pluginVersion": "11.2.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "increase(hikaricp_connections_timeout_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", pool=\"$pool\"}[1m])",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "__auto",
+					"range": true,
+					"refId": "active",
+					"useBackend": false
+				}
+			],
+			"title": "DB CONNECTION TIMEOUT",
+			"type": "stat"
+		},
+		{
+			"datasource": {
+				"default": true,
+				"type": "prometheus",
+				"uid": "ddxzsofirm3uoa"
+			},
+			"description": "Warnings e erros logados nos últimos 5 minutos.",
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 9,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineStyle": {
+							"fill": "solid"
+						},
+						"lineWidth": 1,
+						"pointSize": 4,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"decimals": 0,
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "dark-red",
+								"value": null
+							}
+						]
+					},
+					"unit": "short"
+				},
+				"overrides": [
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "error"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "red",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "warn"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "yellow",
+									"mode": "fixed"
+								}
+							}
+						]
+					},
+					{
+						"matcher": {
+							"id": "byName",
+							"options": "sum(increase(logback_events_total{application=\"app-forum-api\", instance=\"app-forum-api:8080\", job=\"app-forum-api\", level=\"warn\"}[5m]))"
+						},
+						"properties": [
+							{
+								"id": "color",
+								"value": {
+									"fixedColor": "yellow",
+									"mode": "fixed"
+								}
+							}
+						]
+					}
+				]
+			},
+			"gridPos": {
+				"h": 11,
+				"w": 24,
+				"x": 0,
+				"y": 19
+			},
+			"id": 7,
+			"options": {
+				"legend": {
+					"calcs": ["min", "max", "lastNotNull", "sum"],
+					"displayMode": "table",
+					"placement": "bottom",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"exemplar": false,
+					"expr": "sum(increase(logback_events_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", level=\"warn\"}[5m]))",
+					"format": "time_series",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"interval": "",
+					"legendFormat": "warn",
+					"range": true,
+					"refId": "Warn",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "ddxzsofirm3uoa"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"expr": "increase(logback_events_total{application=\"$application\", instance=\"$instance\", job=\"app-forum-api\", level=\"error\"}[5m])",
+					"fullMetaSearch": false,
+					"hide": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "{{level}}",
+					"range": true,
+					"refId": "Error",
+					"useBackend": false
+				}
+			],
+			"title": "WARN & ERROR LOG",
+			"type": "timeseries"
+		}
+	],
+	"refresh": "5s",
+	"schemaVersion": 39,
+	"tags": [],
+	"templating": {
+		"list": [
+			{
+				"current": {
+					"selected": false,
+					"text": "app-forum-api",
+					"value": "app-forum-api"
+				},
+				"datasource": {
+					"type": "prometheus",
+					"uid": "ddxzsofirm3uoa"
+				},
+				"definition": "label_values(application)",
+				"hide": 0,
+				"includeAll": false,
+				"label": "application",
+				"multi": false,
+				"name": "application",
+				"options": [],
+				"query": {
+					"qryType": 5,
+					"query": "label_values(application)",
+					"refId": "PrometheusVariableQueryEditor-VariableQuery"
+				},
+				"refresh": 1,
+				"regex": "",
+				"skipUrlSync": false,
+				"sort": 0,
+				"type": "query"
+			},
+			{
+				"current": {
+					"selected": false,
+					"text": "app-forum-api:8080",
+					"value": "app-forum-api:8080"
+				},
+				"datasource": {
+					"type": "prometheus",
+					"uid": "ddxzsofirm3uoa"
+				},
+				"definition": "label_values(jvm_classes_loaded_classes{application=\"$application\"}, instance)",
+				"hide": 0,
+				"includeAll": false,
+				"label": "instance",
+				"multi": false,
+				"name": "instance",
+				"options": [],
+				"query": {
+					"qryType": 5,
+					"query": "label_values(jvm_classes_loaded_classes{application=\"$application\"}, instance)",
+					"refId": "PrometheusVariableQueryEditor-VariableQuery"
+				},
+				"refresh": 1,
+				"regex": "",
+				"skipUrlSync": false,
+				"sort": 0,
+				"type": "query"
+			},
+			{
+				"current": {
+					"selected": false,
+					"text": "HikariPool-1",
+					"value": "HikariPool-1"
+				},
+				"datasource": {
+					"type": "prometheus",
+					"uid": "ddxzsofirm3uoa"
+				},
+				"definition": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
+				"hide": 0,
+				"includeAll": false,
+				"label": "pool",
+				"multi": false,
+				"name": "pool",
+				"options": [],
+				"query": {
+					"qryType": 5,
+					"query": "label_values(hikaricp_connections{instance=\"$instance\", application=\"$application\"}, pool)",
+					"refId": "PrometheusVariableQueryEditor-VariableQuery"
+				},
+				"refresh": 1,
+				"regex": "",
+				"skipUrlSync": false,
+				"sort": 0,
+				"type": "query"
+			}
+		]
+	},
+	"time": {
+		"from": "now-5m",
+		"to": "now"
+	},
+	"timepicker": {},
+	"timezone": "browser",
+	"title": "Dashboard-forum-api",
+	"uid": "edxzt7n6my5tsc",
+	"version": 8,
+	"weekStart": ""
 }
