@@ -57,7 +57,7 @@ services:
       interval: 1s
       timeout: 30s
       retries: 60
-
+  
   proxy-forum-api:
     image: nginx
     container_name: proxy-forum-api
@@ -94,20 +94,23 @@ services:
       - api
     depends_on:
       - proxy-forum-api
-
-  alertmanager-forum-api:
+    user: root
+  
+  alertmanager-forum-api: 
     image: prom/alertmanager
     container_name: alertmanager-forum-api
-    volumes:
+    volumes: 
       - ./alertmanager:/etc/alertmanager/:ro
-    ports:
+    ports: 
       - 9093:9093
-    command:
+    command: 
       - --config.file=/etc/alertmanager/alertmanager.yml
     networks:
       - monit
     depends_on:
       - prometheus-forum-api
+    user: root
+
 
   grafana-forum-api:
     image: grafana/grafana
@@ -121,6 +124,8 @@ services:
       - monit
     depends_on:
       - alertmanager-forum-api
+    user: root
+
 
   client-forum-api:
     build:

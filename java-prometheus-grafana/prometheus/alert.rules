@@ -7,7 +7,7 @@ groups:
     labels:
       app: 'api-forum-alura'
       severity: 'critical'
-      group: 'ops-forum-api '
+      group: 'ops-forum-api'
       env: 'production'
     annotations:
       title: 'QUEBRA DE SLO'
