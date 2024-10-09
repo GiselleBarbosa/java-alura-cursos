@@ -12,7 +12,11 @@ import java.util.Scanner;
 
 public class AbrigoService {
 
-    ClientHttpConfiguration clientHttpConfiguration = new ClientHttpConfiguration();
+    private ClientHttpConfiguration client;
+
+    public AbrigoService(ClientHttpConfiguration client) {
+        this.client = client;
+    }
 
     public void cadastrarAbrigo() throws IOException, InterruptedException {
         System.out.println("Digite o nome do abrigo:");
@@ -29,7 +33,7 @@ public class AbrigoService {
 
         String uri = "http://localhost:8080/abrigos";
 
-        HttpResponse<String> response = clientHttpConfiguration.realizarRequisicoesPost(uri, json);
+        HttpResponse<String> response = client.realizarRequisicoesPost(uri, json);
 
         int statusCode = response.statusCode();
         String responseBody = response.body();
@@ -45,7 +49,7 @@ public class AbrigoService {
     public void listarAbrigosCadastrados() throws IOException, InterruptedException {
         String uri = "http://localhost:8080/abrigos";
 
-        HttpResponse<String> response = clientHttpConfiguration.realizarRequisicoesGet(uri);
+        HttpResponse<String> response = client.realizarRequisicoesGet(uri);
 
         String responseBody = response.body();
         JsonArray jsonArray = JsonParser.parseString(responseBody).getAsJsonArray();

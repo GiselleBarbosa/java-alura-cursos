@@ -14,7 +14,11 @@ import java.util.Scanner;
 
 public class PetService {
 
-    ClientHttpConfiguration clientHttpConfiguration = new ClientHttpConfiguration();
+    private ClientHttpConfiguration client;
+
+    public PetService(ClientHttpConfiguration client) {
+        this.client = client;
+    }
 
     public void listarPetsDoAbrigo() throws IOException, InterruptedException {
         System.out.println("Digite o id ou nome do abrigo:");
@@ -22,7 +26,7 @@ public class PetService {
 
         String uri = "http://localhost:8080/abrigos/" + idOuNome + "/pets";
 
-        HttpResponse<String> response = clientHttpConfiguration.realizarRequisicoesGet(uri);
+        HttpResponse<String> response = client.realizarRequisicoesGet(uri);
 
         int statusCode = response.statusCode();
         if (statusCode == 404 || statusCode == 500) {
@@ -75,7 +79,7 @@ public class PetService {
 
             String uri = "http://localhost:8080/abrigos/" + idOuNome + "/pets";
 
-            HttpResponse<String> response = clientHttpConfiguration.realizarRequisicoesPost(uri, json);
+            HttpResponse<String> response = client.realizarRequisicoesPost(uri, json);
 
             int statusCode = response.statusCode();
             String responseBody = response.body();
