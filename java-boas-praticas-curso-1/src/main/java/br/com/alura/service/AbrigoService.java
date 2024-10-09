@@ -59,7 +59,7 @@ public class AbrigoService {
         }
     }
 
-    private static HttpResponse<String> realizarRequisicoesGet(HttpClient client, String uri)
+    private HttpResponse<String> realizarRequisicoesGet(HttpClient client, String uri)
             throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
@@ -68,7 +68,7 @@ public class AbrigoService {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    private static HttpResponse<String> realizarRequisicoesPost(HttpClient client, String uri, JsonObject json)
+    private HttpResponse<String> realizarRequisicoesPost(HttpClient client, String uri, JsonObject json)
             throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
