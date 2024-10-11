@@ -1,5 +1,7 @@
 package br.com.alura.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,10 +24,15 @@ public class ClientHttpConfiguration {
     public HttpResponse<String> realizarRequisicoesPost(String uri, Object object)
             throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(object);
+        System.out.println("JSON enviado: " + json);
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .header("Content-Type", "application/json")
-                .method("POST", HttpRequest.BodyPublishers.ofString(object.toString()))
+                .method("POST", HttpRequest.BodyPublishers.ofString(json))
                 .build();
 
         return client.send(request, HttpResponse.BodyHandlers.ofString());
