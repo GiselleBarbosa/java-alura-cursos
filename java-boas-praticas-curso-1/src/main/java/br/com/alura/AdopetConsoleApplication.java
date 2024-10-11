@@ -7,12 +7,12 @@ import br.com.alura.service.PetService;
 import java.util.Scanner;
 
 public class AdopetConsoleApplication {
-
     public static void main(String[] args) {
         ClientHttpConfiguration client = new ClientHttpConfiguration();
-
         AbrigoService abrigoService = new AbrigoService(client);
         PetService petService = new PetService(client);
+
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("##### BOAS VINDAS AO SISTEMA ADOPET CONSOLE #####");
         try {
@@ -25,13 +25,13 @@ public class AdopetConsoleApplication {
                 System.out.println("4 -> Importar pets do abrigo");
                 System.out.println("5 -> Sair");
 
-                String textoDigitado = new Scanner(System.in).nextLine();
+                String textoDigitado = scanner.nextLine();
                 opcaoEscolhida = Integer.parseInt(textoDigitado);
 
                 if (opcaoEscolhida == 1) {
                     abrigoService.listarAbrigosCadastrados();
                 } else if (opcaoEscolhida == 2) {
-                    abrigoService.cadastrarAbrigo();
+                    abrigoService.cadastrarAbrigo(scanner);
                 } else if (opcaoEscolhida == 3) {
                     petService.listarPetsDoAbrigo();
                 } else if (opcaoEscolhida == 4) {
@@ -46,6 +46,8 @@ public class AdopetConsoleApplication {
             System.out.println("Finalizando o programa...");
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            scanner.close();
         }
     }
 }
