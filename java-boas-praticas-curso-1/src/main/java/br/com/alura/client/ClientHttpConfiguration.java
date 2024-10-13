@@ -27,7 +27,6 @@ public class ClientHttpConfiguration {
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(object);
-        System.out.println("JSON enviado: " + json);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))

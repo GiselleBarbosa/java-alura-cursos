@@ -35,7 +35,6 @@ public class AbrigoService {
 
             ObjectMapper mapper = new ObjectMapper();
             String json = mapper.writeValueAsString(abrigoDados);
-            System.out.println("JSON enviado: " + json);
 
             HttpResponse<String> response = client.realizarRequisicoesPost(uri, abrigoDados);
 
